@@ -229,21 +229,22 @@ function enableScrollOnFirstInteraction() {
     if (!interacted) {
       interacted = true;
       document.removeEventListener("wheel", onInteract);
-      document.removeEventListener("touchmove", onInteract);
-
-      // Localizar contenedor (zIndex=10000)
+      document.removeEventListener("touchstart", onInteract);
+      
+      // Localizar el contenedor fijo (con zIndex = "10000")
       const container = document.querySelector('div[style*="z-index: 10000"]');
       if (!container) return;
 
-      // Aplicar transición suave para mover el contenedor hacia arriba sin desplazar el contenido central
+      // Aplicar transición suave para mover el contenedor hacia arriba
       container.style.transition = "top 1s ease, transform 1s ease";
+      // Desde top "50%" y transform "translate(-50%, -50%)" a top "0" y transform "translate(-50%, 0)"
       container.style.top = "0";
       container.style.transform = "translate(-50%, 0)";
 
       container.addEventListener("transitionend", function handler() {
         container.removeEventListener("transitionend", handler);
 
-        // Cambiar a static para integrarlo en el flujo normal
+        // Convertir el contenedor a static para integrarlo al flujo normal
         container.style.position = "static";
         container.style.transform = "none";
         container.style.width = "100%";
@@ -261,7 +262,7 @@ function enableScrollOnFirstInteraction() {
           brand.style.zIndex = "99999";
         }
 
-        // Crear la sección inferior en crema con margen superior para separación
+        // Crear la sección inferior en crema
         const bottomSection = document.createElement("div");
         bottomSection.style.height = "100vh";
         bottomSection.style.backgroundColor = "#F7EBDB";
@@ -270,8 +271,6 @@ function enableScrollOnFirstInteraction() {
       });
     }
   }
-  
-  // Escuchar tanto "wheel" como "touchmove"
   document.addEventListener("wheel", onInteract);
-  document.addEventListener("touchmove", onInteract);
+  document.addEventListener("touchstart", onInteract);
 }
