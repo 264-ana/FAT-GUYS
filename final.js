@@ -223,12 +223,13 @@ setTimeout(() => {
 // --------------------------------------------------------------------------
 // FUNCIÓN: PERMITIR SCROLL CUANDO EL USUARIO RUEDA (tras botón) CON TRANSICIÓN SUAVE
 // --------------------------------------------------------------------------
-function enableScrollOnFirstWheel() {
-  let scrolled = false;
-  function onWheel(e) {
-    if (!scrolled) {
-      scrolled = true;
-      document.removeEventListener("wheel", onWheel);
+function enableScrollOnFirstInteraction() {
+  let interacted = false;
+  function onInteract(e) {
+    if (!interacted) {
+      interacted = true;
+      document.removeEventListener("wheel", onInteract);
+      document.removeEventListener("touchmove", onInteract);
 
       // Localizar contenedor (zIndex=10000)
       const container = document.querySelector('div[style*="z-index: 10000"]');
@@ -253,14 +254,14 @@ function enableScrollOnFirstWheel() {
         // Habilitar scroll
         document.body.style.overflow = "auto";
 
-        // Asegurarnos de que el branding permanezca fijo
+        // Aseguramos que el branding permanezca fijo
         const brand = document.getElementById("brandContainer");
         if (brand) {
           brand.style.position = "fixed";
           brand.style.zIndex = "99999";
         }
 
-        // Crear la sección inferior en crema con mayor espacio
+        // Crear la sección inferior en crema con margen superior para separación
         const bottomSection = document.createElement("div");
         bottomSection.style.height = "100vh";
         bottomSection.style.backgroundColor = "#F7EBDB";
@@ -269,5 +270,8 @@ function enableScrollOnFirstWheel() {
       });
     }
   }
-  document.addEventListener("wheel", onWheel);
+  
+  // Escuchar tanto "wheel" como "touchmove"
+  document.addEventListener("wheel", onInteract);
+  document.addEventListener("touchmove", onInteract);
 }
