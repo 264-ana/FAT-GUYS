@@ -1,6 +1,4 @@
-// --------------------------------------------------------------------------
-// DESHABILITAR SCROLL INICIALMENTE
-// --------------------------------------------------------------------------
+// Deshabilitar scroll inicialmente
 document.body.style.overflow = "hidden";
 
 setTimeout(() => {
@@ -100,6 +98,7 @@ setTimeout(() => {
         const newSize = currentFontSize * scaleFactor;
         line2El.style.fontSize = newSize + "px";
       }
+      // Ocultar "QUEEN" mientras se realiza la animación de entrada
       line2El.style.opacity = "0";
     });
 
@@ -181,10 +180,10 @@ setTimeout(() => {
       buttonEl.style.transform = "scale(1)";
       buttonEl.style.opacity = "1";
 
-      // Esperar 0.5s para que el pop termine y luego habilitar scroll
+      // Esperar 1 segundo después de que el botón aparece para habilitar el scroll
       setTimeout(() => {
-        enableScrollOnFirstWheel();
-      }, 500);
+        performScrollEnable();
+      }, 1000);
     }
 
     // 9. Iniciar la animación "QUEEN"
@@ -192,7 +191,7 @@ setTimeout(() => {
 
     // 10. Branding (By + Logo)
     const brandContainer = document.createElement("div");
-    brandContainer.id = "brandContainer"; // Asignar un id para referencia
+    brandContainer.id = "brandContainer"; // Para mantenerlo fijo
     brandContainer.style.position = "fixed";
     brandContainer.style.bottom = "1rem";
     brandContainer.style.right = "1rem";
@@ -221,56 +220,44 @@ setTimeout(() => {
 }, 11600);
 
 // --------------------------------------------------------------------------
-// FUNCIÓN: PERMITIR SCROLL CUANDO EL USUARIO RUEDA (tras botón) CON TRANSICIÓN SUAVE
-// --------------------------------------------------------------------------
-function enableScrollOnFirstInteraction() {
-  let interacted = false;
-  function onInteract(e) {
-    if (!interacted) {
-      interacted = true;
-      document.removeEventListener("wheel", onInteract);
-      document.removeEventListener("touchstart", onInteract);
-      
-      // Localizar el contenedor fijo (con zIndex = "10000")
-      const container = document.querySelector('div[style*="z-index: 10000"]');
-      if (!container) return;
+// FUNCIÓN: PERMITIR SCROLL CUANDO SE EJECUTE (1 seg DESPUÉS DEL BOTÓN)
+// Con transición suave para integrar el contenedor rojo en el flujo sin desplazar el contenido central.
+function performScrollEnable() {
+  // Localizar el contenedor fijo (usamos el que tiene zIndex="10000")
+  const container = document.querySelector('div[style*="z-index: 10000"]');
+  if (!container) return;
 
-      // Aplicar transición suave para mover el contenedor hacia arriba
-      container.style.transition = "top 1s ease, transform 1s ease";
-      // Desde top "50%" y transform "translate(-50%, -50%)" a top "0" y transform "translate(-50%, 0)"
-      container.style.top = "0";
-      container.style.transform = "translate(-50%, 0)";
+  // Aplicar transición suave en top y transform
+  container.style.transition = "top 1s ease, transform 1s ease";
+  // Cambiar de top: "50%" y transform: "translate(-50%, -50%)" a top: "0" y transform: "translate(-50%, 0)"
+  container.style.top = "0";
+  container.style.transform = "translate(-50%, 0)";
 
-      container.addEventListener("transitionend", function handler() {
-        container.removeEventListener("transitionend", handler);
+  container.addEventListener("transitionend", function handler() {
+    container.removeEventListener("transitionend", handler);
+    // Convertir el contenedor a static para que se integre en el flujo normal
+    container.style.position = "static";
+    container.style.transform = "none";
+    container.style.width = "100%";
+    container.style.backgroundColor = "#D82B02";
+    container.style.paddingTop = "5rem";
+    container.style.paddingBottom = "5rem";
 
-        // Convertir el contenedor a static para integrarlo al flujo normal
-        container.style.position = "static";
-        container.style.transform = "none";
-        container.style.width = "100%";
-        container.style.backgroundColor = "#D82B02";
-        container.style.paddingTop = "5rem";
-        container.style.paddingBottom = "5rem";
+    // Habilitar scroll
+    document.body.style.overflow = "auto";
 
-        // Habilitar scroll
-        document.body.style.overflow = "auto";
-
-        // Aseguramos que el branding permanezca fijo
-        const brand = document.getElementById("brandContainer");
-        if (brand) {
-          brand.style.position = "fixed";
-          brand.style.zIndex = "99999";
-        }
-
-        // Crear la sección inferior en crema
-        const bottomSection = document.createElement("div");
-        bottomSection.style.height = "100vh";
-        bottomSection.style.backgroundColor = "#F7EBDB";
-        bottomSection.style.marginTop = "2rem";
-        document.body.appendChild(bottomSection);
-      });
+    // Asegurar que el branding permanezca fijo
+    const brand = document.getElementById("brandContainer");
+    if (brand) {
+      brand.style.position = "fixed";
+      brand.style.zIndex = "99999";
     }
-  }
-  document.addEventListener("wheel", onInteract);
-  document.addEventListener("touchstart", onInteract);
+
+    // Crear la sección inferior en crema
+    const bottomSection = document.createElement("div");
+    bottomSection.style.height = "100vh";
+    bottomSection.style.backgroundColor = "#F7EBDB";
+    bottomSection.style.marginTop = "2rem";
+    document.body.appendChild(bottomSection);
+  });
 }
