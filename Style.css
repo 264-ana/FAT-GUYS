@@ -78,7 +78,6 @@ body {
   color: transparent;
   -webkit-text-stroke: 2px #FD933A;
   font-weight: bold;
-
 }
 
 /* Animaciones */
@@ -102,6 +101,7 @@ body {
   animation: fade-out 1s ease-in-out forwards;
   visibility: hidden;
 }
+
 @keyframes explodeLetter {
   0% {
     opacity: 0;
@@ -122,6 +122,7 @@ body {
   opacity: 0;
   animation: explodeLetter 0.8s cubic-bezier(0.175, 0.885, 0.320, 1.275) forwards;
 }
+
 @keyframes fillText {
   0% {
     color: transparent;
@@ -135,4 +136,26 @@ body {
 
 .fill-text {
   animation: fillText 1s forwards;
+}
+
+/* Reglas para las burbujas flotantes */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+.bubble {
+  position: fixed;
+  bottom: -100px;
+  border-radius: 50%; /* Forma circular */
+  background-color: transparent;
+  pointer-events: none;
+  animation: floatUp linear forwards;
+  z-index: 10002; /* Las burbujas se muestran por encima de todo */
 }

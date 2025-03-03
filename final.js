@@ -11,7 +11,6 @@ setTimeout(() => {
   container.style.color = "#F7EBDB"; // Color crema para líneas 1 y 2
 
   // 2. Definir la estructura en grid con 4 filas.
-  // Se usa position: relative para permitir posicionamiento absoluto de elementos temporales.
   container.innerHTML = `
     <div id="grid" style="
       position: relative;
@@ -20,7 +19,7 @@ setTimeout(() => {
       align-items: center;
       justify-items: center;
     ">
-      <!-- Fila 1: "HOY, TÚ ERES LA" (se animará letra por letra) -->
+      <!-- Fila 1: "HOY, TÚ ERES LA" -->
       <div id="line1" style="
         font-size: 3rem;
         margin: 0 0 0.1rem 0; 
@@ -29,7 +28,7 @@ setTimeout(() => {
         HOY, TÚ ERES LA
       </div>
 
-      <!-- Fila 2: "QUEEN" (versión final; se ajusta y se usará para la animación de entrada) -->
+      <!-- Fila 2: "QUEEN" -->
       <div id="line2" style="
         font-size: 8rem;
         margin: 0 0 2rem 0; 
@@ -39,7 +38,7 @@ setTimeout(() => {
         QUEEN
       </div>
 
-      <!-- Fila 3: "(No importa qué día lo leas)" en color #FD933A, inicialmente oculto y desplazado -->
+      <!-- Fila 3: "(No importa qué día lo leas)" -->
       <div id="line3" style="
         font-size: 1.4rem;
         margin: 0;
@@ -51,7 +50,7 @@ setTimeout(() => {
         (No importa qué día lo leas)
       </div>
 
-      <!-- Fila 4: Contenedor para el botón; se animará posteriormente -->
+      <!-- Fila 4: Contenedor para el botón -->
       <div id="line4" style="margin-top: 1rem;"></div>
     </div>
   `;
@@ -97,58 +96,43 @@ setTimeout(() => {
       const newSize = currentFontSize * scaleFactor;
       line2El.style.fontSize = newSize + "px";
     }
-    // Ocultar la versión final de "QUEEN" mientras se realiza la animación de entrada
     line2El.style.opacity = "0";
   });
 
-  // 6. Función para animar la entrada de "QUEEN" con desplazamiento y efecto de revelado de contorno a relleno
+  // 6. Función para animar la entrada de "QUEEN"
   function animateQueenEntrance() {
     const finalQueenEl = document.getElementById("line2");
     const finalFontSize = window.getComputedStyle(finalQueenEl).fontSize;
     
-    // Crear un elemento temporal para la animación de entrada
     const tempQueen = document.createElement("div");
     tempQueen.textContent = finalQueenEl.textContent;
     tempQueen.style.position = "absolute";
-    // Posicionarlo en la misma ubicación que "line2" dentro del contenedor grid
     tempQueen.style.top = finalQueenEl.offsetTop + "px";
     tempQueen.style.left = finalQueenEl.offsetLeft + "px";
     tempQueen.style.width = finalQueenEl.offsetWidth + "px";
     tempQueen.style.fontFamily = window.getComputedStyle(finalQueenEl).fontFamily;
     tempQueen.style.color = window.getComputedStyle(finalQueenEl).color;
-    // Aparecer en tamaño enorme: 3 veces el tamaño final
     tempQueen.style.fontSize = (parseFloat(finalFontSize) * 3) + "px";
     tempQueen.style.lineHeight = finalQueenEl.style.lineHeight;
-    // Inicialmente, posicionarlo completamente fuera de la pantalla a la derecha
     tempQueen.style.transform = "translateX(100vw)";
     tempQueen.style.opacity = "1";
-    // Configurar la transición para que se desplace completamente fuera de la pantalla a la izquierda
     tempQueen.style.transition = "transform 1.5s ease-in-out";
 
-    // Agregar el elemento temporal al contenedor grid
     const gridEl = document.getElementById("grid");
     gridEl.appendChild(tempQueen);
 
-    // Forzar reflow y luego iniciar la animación:
     void tempQueen.offsetWidth;
-    // Desplazarlo para que salga totalmente de la pantalla (por ejemplo, -200vw)
     tempQueen.style.transform = "translateX(-200vw)";
 
-    // Al finalizar la transición, eliminar el elemento temporal y revelar "QUEEN" final con efecto de contorno a relleno
     tempQueen.addEventListener("transitionend", function handler() {
       tempQueen.removeEventListener("transitionend", handler);
       tempQueen.parentElement.removeChild(tempQueen);
-      // Configurar la versión final de "QUEEN" para mostrar solo el contorno inicialmente
-      finalQueenEl.style.opacity = "1"; // Asegurar visibilidad
+      finalQueenEl.style.opacity = "1";
       finalQueenEl.style.color = "transparent";
       finalQueenEl.style.webkitTextStroke = "2px #F7EBDB";
-      // Eliminar cualquier transición inline para evitar interferencias
       finalQueenEl.style.transition = "";
-      // Forzar reflow
       void finalQueenEl.offsetWidth;
-      // Agregar la clase que dispara la animación de relleno (fill-text) definida en Style.css
       finalQueenEl.classList.add("fill-text");
-      // Cuando finalice la animación de fillText, iniciar la animación de la línea 3
       finalQueenEl.addEventListener("animationend", function fillHandler() {
         finalQueenEl.removeEventListener("animationend", fillHandler);
         animateLine3();
@@ -156,13 +140,12 @@ setTimeout(() => {
     });
   }
 
-  // 7. Función para animar la aparición de la línea 3 ("(No importa qué día lo leas)")
+  // 7. Función para animar la aparición de la línea 3
   function animateLine3() {
     const line3El = document.getElementById("line3");
     line3El.style.transition = "opacity 0.8s ease-in-out, transform 0.8s ease-in-out";
     line3El.style.opacity = "1";
     line3El.style.transform = "translateY(0)";
-    // Tras finalizar la animación de la línea 3, iniciar la animación del botón
     setTimeout(animateButtonPop, 800);
   }
 
@@ -181,10 +164,8 @@ setTimeout(() => {
     buttonEl.style.fontWeight = "bold";
     buttonEl.style.cursor = "pointer";
     buttonEl.style.transition = "transform 0.5s ease, opacity 0.5s ease, background-color 0.3s";
-    // Estado inicial: oculto y en escala pequeña
     buttonEl.style.opacity = "0";
     buttonEl.style.transform = "scale(0.5)";
-    // Eventos hover
     buttonEl.addEventListener("mouseover", () => {
       buttonEl.style.backgroundColor = "#FDA45B";
     });
@@ -192,16 +173,15 @@ setTimeout(() => {
       buttonEl.style.backgroundColor = "#F7EBDB";
     });
     line4El.appendChild(buttonEl);
-    // Forzar reflow y luego iniciar la animación "pop"
     void buttonEl.offsetWidth;
     buttonEl.style.transform = "scale(1)";
     buttonEl.style.opacity = "1";
   }
 
-  // 9. Iniciar la animación de entrada de "QUEEN" después de un pequeño retardo (500ms)
+  // 9. Iniciar la animación de entrada de "QUEEN" después de 500ms
   setTimeout(animateQueenEntrance, 500);
 
-  // 10. Agregar "By" + Logo (FGB.png) en la esquina inferior derecha, separados por flex
+  // 10. Agregar "By" + Logo en la esquina inferior derecha
   const brandContainer = document.createElement("div");
   brandContainer.style.position = "fixed";
   brandContainer.style.bottom = "1rem";
@@ -219,7 +199,7 @@ setTimeout(() => {
   byText.style.color = "#F7EBDB";
 
   const logoImg = document.createElement("img");
-  logoImg.src = "FOTOS/FGB.png";  // Verifica que la ruta sea correcta
+  logoImg.src = "FOTOS/FGB.png";
   logoImg.alt = "Fat Guys Logo";
   logoImg.style.width = "80px";
   logoImg.style.height = "auto";

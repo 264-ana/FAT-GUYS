@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería de Perfiles</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F7EBDB;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .profile {
+      margin: 5px;
+    }
+    .profile img {
+      width: 100px;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="gallery"></div>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+    const totalProfiles = 11; // Cargamos imágenes del 1.png al 11.png
+
+    for (let i = 1; i <= totalProfiles; i++) {
+      const img = document.createElement("img");
+      img.src = `PERFILES/${i}.png`;
+      img.alt = `Perfil ${i}`;
+      img.className = "profile";
+      gallery.appendChild(img);
+    }
+  </script>
+</body>
+</html>
