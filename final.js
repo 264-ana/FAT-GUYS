@@ -229,4 +229,3 @@ setTimeout(() => {
   document.body.appendChild(brandContainer);
 
 }, 11600);
-

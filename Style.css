@@ -1,136 +1,138 @@
 @font-face {
-    font-family: 'Flame';
-    src: url('FONTS/Flame-Bold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: 'Flame';
+  src: url('FONTS/Flame-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #F7EBDB;
-    font-family: 'Flame', Arial, sans-serif;
-    transition: background-color 1s ease-in-out, transform 0.5s ease;
-}
-
-/* Sección de Landing: Fondo rojo */
-#landing-wrapper {
-  background-color: #D82B02;
-  min-height: 100vh;
-  position: relative;
-}
-
-/* Sección inferior: Fondo crema */
-#cream-section {
+  margin: 0;
+  padding: 0;
   background-color: #F7EBDB;
-  min-height: 100vh;
+  font-family: 'Flame', Arial, sans-serif;
+  transition: background-color 1s ease-in-out, transform 0.5s ease;
 }
 
-/* Precarga y animaciones existentes */
+/* Contenedor de la precarga */
 .preloader {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: #F7EBDB;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #F7EBDB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
 }
 
+/* Primera precarga (Logo con animación mejorada) */
 #preloader-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fade-in 1.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fade-in 1.5s ease-in-out;
 }
 
 #preloader-logo img {
-    width: 250px;
-    height: auto;
+  width: 250px;
+  height: auto;
 }
 
+/* Segunda precarga (Nombres en movimiento) */
 #preloader-names {
-    display: none;
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    padding: 2cm;
-    box-sizing: border-box;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding: 2cm;
+  box-sizing: border-box;
 }
 
 .names-container {
-    position: absolute;
-    width: calc(100% - 4cm);
-    height: calc(100% - 4cm);
-    animation: moveUp 8s linear forwards;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: flex-start;
+  position: absolute;
+  width: calc(100% - 4cm);
+  height: calc(100% - 4cm);
+  animation: moveUp 8s linear forwards;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
 }
 
 .name {
-    font-family: 'Flame', sans-serif;
-    color: #FD933A;
-    font-weight: bold;
-    position: relative;
-    white-space: nowrap;
-    max-width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-family: 'Flame', sans-serif;
+  color: #FD933A;
+  font-weight: bold;
+  position: relative;
+  white-space: nowrap;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .name.outline {
-    color: transparent;
-    -webkit-text-stroke: 2px #FD933A;
-    font-weight: bold;
+  color: transparent;
+  -webkit-text-stroke: 2px #FD933A;
+  font-weight: bold;
+
 }
 
-/* Animaciones existentes */
+/* Animaciones */
 @keyframes fade-in {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes fade-out {
-    from { opacity: 1; transform: scale(1); }
-    to { opacity: 0; transform: scale(1.2); }
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.2); }
 }
 
 @keyframes moveUp {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-100vh); }
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-100vh); }
 }
 
+/* Aplicando clase para ocultar con animación */
 .hidden {
-    animation: fade-out 1s ease-in-out forwards;
-    visibility: hidden;
+  animation: fade-out 1s ease-in-out forwards;
+  visibility: hidden;
 }
-
-/* Efecto de explosión para las letras */
 @keyframes explodeLetter {
-    0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
-    50% { opacity: 1; transform: scale(1.5) rotate(15deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-  
-.explode-letter {
-    display: inline-block;
+  0% {
     opacity: 0;
-    animation: explodeLetter 0.8s cubic-bezier(0.175, 0.885, 0.320, 1.275) forwards;
+    transform: scale(0.3) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) rotate(15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
-/* Animación de relleno para "QUEEN" */
-@keyframes fillText {
-    0% { color: transparent; -webkit-text-stroke: 2px #F7EBDB; }
-    100% { color: #F7EBDB; -webkit-text-stroke: 0px; }
+.explode-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: explodeLetter 0.8s cubic-bezier(0.175, 0.885, 0.320, 1.275) forwards;
 }
-  
+@keyframes fillText {
+  0% {
+    color: transparent;
+    -webkit-text-stroke: 2px #F7EBDB;
+  }
+  100% {
+    color: #F7EBDB;
+    -webkit-text-stroke: 0px;
+  }
+}
+
 .fill-text {
-    animation: fillText 1s forwards;
+  animation: fillText 1s forwards;
 }
